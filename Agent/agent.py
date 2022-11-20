@@ -37,6 +37,9 @@ def get_latest_command():
     # Get the page
     driver.get(url)
 
+    # Wait for the page to load
+    time.sleep(1)
+
     # Get the latest toot
     latest_toot = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/div[2]/div[2]/div[2]/div/div/div/article[1]/div/div/div[1]/div/p").text
 

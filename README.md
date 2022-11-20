@@ -9,8 +9,8 @@ BlueBreaker is a simple tool to exfiltrate data by passing commands through a Ma
 The server relies on a Mastadon account, this account needs to be able to post to the public timeline or unlisted toots. To set the configuration file please create a config.toml file in the server firectory and fill it with the following information:
 
 ```toml
-url = <Mastadon instance URL>
-auth_token = <Mastadon auth token>
+url = "Mastadon instance URL"
+auth_token = "Mastadon auth token"
 ```
 
 After that you should download the required dependencies by running:
@@ -24,8 +24,8 @@ pip install -r requirements.txt
 The agent relies on the Dropbox API to upload the results of the commands. To set the configuration file please create a config.toml file in the agent firectory and fill it with the following information:
 
 ```toml
-url = <Mastadon instance URL>
-dropbox_token = <Dropbox API token>
+url = "Mastadon instance URL"
+dropbox_token = "Dropbox API token"
 ```
 
 After that you should download the required dependencies by running:
@@ -56,6 +56,8 @@ python3 agent.py
 ```
 
 ## Demo
+
+https://user-images.githubusercontent.com/55480558/202913781-afd98595-7d50-43d5-a714-6440d2c60045.mp4
 
 ## Changelog
 

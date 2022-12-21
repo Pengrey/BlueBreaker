@@ -1,1 +1,0 @@
-uid=1000(pengre) gid=1000(pengre) groups=1000(pengre),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),122(lpadmin),134(lxd),135(sambashare),999(docker)

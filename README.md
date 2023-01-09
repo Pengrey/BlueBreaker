@@ -1,6 +1,6 @@
 # BlueBreaker
 [![Python](https://img.shields.io/badge/Python-%E2%89%A5%203.6-yellow.svg)](https://www.python.org/) 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Pengrey/BlueBreaker/blob/main/LICENSE.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Pengrey/BlueBreaker/blob/main/LICENSE)
 <img src="https://img.shields.io/badge/Maintained%3F-Yes-96c40f">
 
 ## Purpose

@@ -6,6 +6,9 @@
 ## Purpose
 BlueBreaker is a simple tool to exfiltrate data by passing commands through a Mastadon instance and by later retrieving the results by using the Dropbox API.
 
+## Preview
+![image](https://user-images.githubusercontent.com/55480558/211346318-ac5f66f4-b2d8-4b3f-934a-50fd08fea3f1.png)
+
 ## Installation
 
 ### Server

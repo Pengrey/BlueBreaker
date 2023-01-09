@@ -70,12 +70,10 @@ https://user-images.githubusercontent.com/55480558/202913781-afd98595-7d50-43d5-
 - [x] Improve stability
 - [x] Improve network fingerprint
 - [x] Improve human like interaction
-- [ ] Improve server side
+- [X] Improve server side
 - [ ] Add multi agents functionality
 - [ ] Add encrypted communication
 
 ## Disclaimer
 
 This tool is for educational purposes only. I am not responsible for any damage caused by this tool.
-
-

@@ -62,7 +62,7 @@ python3 ./Implant/run.py
 
 ## Demo
 
-Note: (will be updated soon)
+Note: This demo is outdated and will be updated soon.
 
 https://user-images.githubusercontent.com/55480558/202913781-afd98595-7d50-43d5-a714-6440d2c60045.mp4
 

@@ -78,8 +78,4 @@ https://user-images.githubusercontent.com/55480558/202913781-afd98595-7d50-43d5-
 
 This tool is for educational purposes only. I am not responsible for any damage caused by this tool.
 
-## License
-
-[MIT](https://github.com/Pengrey/BlueBreaker/blob/main/LICENSE)
-
 

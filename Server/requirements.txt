@@ -1,1 +1,3 @@
 toml
+requests
+alive_progress

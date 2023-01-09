@@ -25,6 +25,7 @@ The agent relies on the Dropbox API to upload the results of the commands. To se
 
 ```toml
 url = "Mastadon instance URL"
+user_id = "Mastadon user ID"
 dropbox_token = "Dropbox API token"
 ```
 
@@ -33,9 +34,6 @@ After that you should download the required dependencies by running:
 ```bash
 pip install -r requirements.txt
 ```
-
-The agent also relies on a firefox driver to be able to retrieve the commands from the Mastadon instance. You can download the driver from [here](https://github.com/mozilla/geckodriver). After that you should add the path to the driver to the PATH environment variable.
-
 
 ## Usage
 
@@ -61,8 +59,16 @@ https://user-images.githubusercontent.com/55480558/202913781-afd98595-7d50-43d5-
 
 ## Changelog
 
-* 0.1.0
-    * Initial release
+* beta
+    * Still in development
+
+## Roadmap
+- [x] Improve stability
+- [x] Improve network fingerprint
+- [x] Improve human like interaction
+- [ ] Improve server side
+- [ ] Add multi agents functionality
+- [ ] Add encrypted communication
 
 ## Disclaimer
 

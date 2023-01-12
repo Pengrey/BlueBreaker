@@ -53,7 +53,7 @@ def post_toot(command):
     requests.post(url_api, headers=auth, data=data)
 
 def wait():
-    wait_time = 3 * 60 + 20 # 3 minutes and 30 seconds
+    wait_time = 3 * 60 + 20 # 3 minutes and 20 seconds
     
     # Wait for command to be executed
     with alive_progress.alive_bar(wait_time, bar="blocks", spinner="classic", title="Waiting for command to be executed") as bar:

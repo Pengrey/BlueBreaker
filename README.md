@@ -9,6 +9,10 @@ BlueBreaker is a simple tool to exfiltrate data by passing commands to an implan
 ## Preview
 ![image](https://user-images.githubusercontent.com/55480558/212151209-d1c7d6d4-ecb4-4b45-9591-b72e834635d0.png)
 
+## Demo
+
+https://user-images.githubusercontent.com/55480558/212157270-ac9b82c8-980e-4ad6-b622-2c03d8349ab3.mp4
+
 ## Installation
 
 ### Server
@@ -60,10 +64,6 @@ To start the implant you should run the following command:
 ```bash
 ./Implant/run.py
 ```
-
-## Demo
-
-https://user-images.githubusercontent.com/55480558/212157270-ac9b82c8-980e-4ad6-b622-2c03d8349ab3.mp4
 
 ## Changelog
 
